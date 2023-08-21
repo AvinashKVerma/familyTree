@@ -2,11 +2,12 @@ function build_family_tree(data, id) {
   const person_dict = {};
 
   data.forEach((entry) => {
+    const wife = entry.spouse ? entry.spouse : [];
     const person = {
       id: entry.id,
       name: entry.name,
       gender: entry.gender,
-      spouse: entry.spouse,
+      spouse: [...wife],
       children: [],
     };
 
@@ -27,16 +28,18 @@ function build_family_tree(data, id) {
         mother.children.push(person);
       }
     }
-    if (entry.spouse) {
-      entry.spouse.forEach((ele) => {
+
+    // Check if 'spouse' exists before accessing it
+    if (person.spouse) {
+      person.spouse.forEach((ele) => {
         const spouse = person_dict[ele];
-        if (spouse.spouse) {
+        if (spouse && spouse.spouse) {
           spouse.spouse.push(person);
         }
       });
     }
   });
-  console.log(person_dict);
+
   const rootPerson = person_dict[id];
   return rootPerson;
 }

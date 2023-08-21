@@ -8,6 +8,7 @@ function PersonNode({ person }) {
     }
 
     const spouse = person.spouse;
+    console.log(spouse);
     const children = person.children;
 
     return (
