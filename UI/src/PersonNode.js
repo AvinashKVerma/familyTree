@@ -26,7 +26,6 @@ function PersonNode({ person }) {
               />
             </div>
             <div className='person-name'>{person.name}</div>
-            <div className='person-gender'>{person.gender}</div>
             <div className='person-gender'>{person.title}</div>
           </div>
           {spouse &&
@@ -46,7 +45,6 @@ function PersonNode({ person }) {
                     />
                   </div>
                   <div className='spouse-name'>{ele.name}</div>
-                  <div className='person-gender'>{ele.gender}</div>
                   <div className='spouse-gender'>{ele.title}</div>
                 </div>
               );
