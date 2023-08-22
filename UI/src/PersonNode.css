@@ -11,6 +11,9 @@
   background-color: #f0f0f0;
 }
 
+.parent {
+  display: flex;
+}
 .person-details {
   text-align: center;
   margin-bottom: 10px;
@@ -22,6 +25,7 @@
 }
 
 .children {
+  display: flex;
   list-style-type: none;
   padding-left: 20px;
 }
@@ -35,4 +39,29 @@
 
 .tree li {
   margin: 10px;
+}
+
+.circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; /* Make it circular */
+  border: 5px solid #007bffbd; /* Set the border color and thickness */
+  overflow: hidden; /* Hide overflow if image is larger than container */
+}
+
+.circle-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover; /* Maintain aspect ratio */
+  padding: 3px;
+}
+
+.circle-container.female {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border-color: #ff00ff5e;
+  overflow: hidden;
 }

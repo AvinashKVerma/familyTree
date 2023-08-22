@@ -28,10 +28,7 @@ function App() {
     <div className='App'>
       {familyTree && (
         <ul>
-          <PersonNode
-            person={familyTree}
-            familyTree={familyTree} // Pass familyTree prop here
-          />
+          <PersonNode person={familyTree} />
         </ul>
       )}
     </div>
