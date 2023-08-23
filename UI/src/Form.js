@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import './Form.css';
 
 const Form = (props) => {
-  const { selectedItem, relation } = props;
-  const [name, setName] = useState("");
-  const [title, setTitle] = useState("");
-  const [gender, setGender] = useState("");
-  const [image, setImage] = useState("");
-  const [wifeName, setWifeName] = useState("");
-  const [husbandName, setHusbandName] = useState("");
+  //Props
+  const { selectedItem } = props;
 
-  console.log(selectedItem);
+  //State Variables
+  const [name, setName] = useState(selectedItem.name ? selectedItem.name : '');
+  const [title, setTitle] = useState(
+    selectedItem.title ? selectedItem.title : '',
+  );
+  const [gender, setGender] = useState(
+    selectedItem.gender ? selectedItem.gender : '',
+  );
+  const [image, setImage] = useState(selectedItem.img ? selectedItem.img : '');
+  const [spouse, setSpouse] = useState(
+    selectedItem.spouse ? selectedItem.spouse : [],
+  );
+  const [children, setChildren] = useState(
+    selectedItem.children ? selectedItem.children : [],
+  );
+
+  const [img, setImg] = useState(selectedItem.img ? selectedItem.img : '');
+
+  // console.log(selectedItem);
   const handleGenderChange = (event) => {
     const selectedGender = event.target.value;
     setGender(selectedGender);
@@ -17,88 +31,91 @@ const Form = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Name:", name);
-    console.log("Title:", title);
-    console.log("Gender:", gender);
-    console.log("Image:", image);
-    if (gender === "male") {
-      console.log("Wife Name:", wifeName);
-    }
-    if (gender === "female") {
-      console.log("Husband Name", husbandName);
-    }
-    if (relation === "child") {
-    }
+    console.log('Name:', name);
+    console.log('Title:', title);
+    console.log('Gender:', gender);
+    console.log('Image:', image);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+    <form
+      className='form'
+      onSubmit={handleSubmit}>
+      <div className='form-header'>
+        <h1>{name} </h1>
+        <img
+          src={`./Resources/${img}.png`}
+          alt={img}
         />
       </div>
       <div>
-        <label>Title:</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Gender:</label>
-        <label>
+        <div>
+          <label>Name:</label>
           <input
-            type="radio"
-            value="male"
-            checked={gender === "male"}
-            onChange={handleGenderChange}
+            type='text'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
-          Male
-        </label>
-        <label>
+        </div>
+        <div>
+          <label>Title:</label>
           <input
-            type="radio"
-            value="female"
-            checked={gender === "female"}
-            onChange={handleGenderChange}
+            type='text'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
-          Female
-        </label>
-      </div>
-      <div>
-        <label>Image URL:</label>
-        <input
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
-      </div>
-      {gender === "female" && (
+        </div>
+        <div>
+          <label>Gender:</label>
+          <label>
+            <input
+              type='radio'
+              value='male'
+              checked={gender === 'male'}
+              onChange={handleGenderChange}
+            />
+            Male
+          </label>
+          <label>
+            <input
+              type='radio'
+              value='female'
+              checked={gender === 'female'}
+              onChange={handleGenderChange}
+            />
+            Female
+          </label>
+        </div>
+        <div>
+          <label>Image URL:</label>
+          <input
+            type='text'
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+          />
+        </div>
+        {/* {gender === 'female' && (
         <div>
           <label>Husband Name:</label>
           <input
-            type="text"
+            type='text'
             value={husbandName}
             onChange={(e) => setHusbandName(e.target.value)}
           />
         </div>
       )}
-      {gender === "male" && (
+      {gender === 'male' && (
         <div>
           <label>Wife Name:</label>
           <input
-            type="text"
+            type='text'
             value={wifeName}
             onChange={(e) => setWifeName(e.target.value)}
           />
         </div>
-      )}
-      <button type="submit">Submit</button>
+      )} */}
+        <button type='submit'>Submit</button>
+      </div>
     </form>
   );
 };

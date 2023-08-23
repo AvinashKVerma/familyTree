@@ -1,21 +1,21 @@
 import React from 'react';
 import './PersonNode.css'; // Import your CSS file
 
-function PersonNode({ person }) {
+function PersonNode({ person, handleClick }) {
   const renderPerson = (person) => {
     if (!person) {
       return null;
     }
 
     const spouse = person.spouse;
-    console.log(person.name, person.gender);
     const children = person.children;
-    spouse.length > 0 && console.log(spouse);
+
     return (
       <div className='person-node'>
         <div className='parent'>
           <div className='person-details'>
             <div
+              onClick={() => handleClick(person)}
               className={`circle-container${
                 person.gender === 'male' ? '' : ' female'
               }`}>
@@ -35,6 +35,7 @@ function PersonNode({ person }) {
                   key={ele.id}
                   className='spouse-details'>
                   <div
+                    onClick={() => handleClick(ele)}
                     className={`circle-container${
                       ele.gender === 'male' ? '' : ' female'
                     }`}>
@@ -55,6 +56,7 @@ function PersonNode({ person }) {
             <PersonNode
               key={child.id}
               person={child}
+              handleClick={handleClick}
             />
           ))}
         </ul>

@@ -3,9 +3,13 @@ import axios from 'axios';
 import './App.css';
 import build_family_tree from './data';
 import PersonNode from './PersonNode';
+import Form from './Form';
 
 function App() {
   const [data, setData] = useState([]);
+  const [form, setForm] = useState(false);
+  const [formInput, setFormInput] = useState({});
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -24,12 +28,27 @@ function App() {
   const rootPersonId = 1; // Change this to the appropriate root person's ID
   const familyTree = build_family_tree(data, rootPersonId);
 
+  const handleClick = (input) => {
+    setForm(true);
+    setFormInput(input);
+  };
+
   return (
     <div className='App'>
-      {familyTree && (
-        <ul>
-          <PersonNode person={familyTree} />
-        </ul>
+      <div className='display-Tree'>
+        {familyTree && (
+          <ul>
+            <PersonNode
+              person={familyTree}
+              handleClick={handleClick}
+            />
+          </ul>
+        )}
+      </div>
+      {form && (
+        <div className='form-container'>
+          <Form selectedItem={formInput} />
+        </div>
       )}
     </div>
   );

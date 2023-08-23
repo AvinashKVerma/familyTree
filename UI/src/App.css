@@ -1,26 +1,18 @@
-/* Add your other styles here
-
-.family-tree {
+.App {
   display: flex;
-  justify-content: center;
 }
 
-.person-node {
-  border: 1px solid #ccc;
-  padding: 10px;
-  background-color: white;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 10px;
+.display-Tree {
+  flex: 1;
 }
 
-.person-details {
-  font-weight: bold;
-  margin-bottom: 5px;
+.form-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  display: flex;
+  z-index: 100;
 }
-
-.spouse-details {
-  font-style: italic;
-  margin-top: 5px;
-  padding-top: 5px;
-  border-top: 1px dashed #ccc;
-} */
