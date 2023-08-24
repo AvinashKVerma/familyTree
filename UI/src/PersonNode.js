@@ -7,6 +7,10 @@ function PersonNode({ person, handleClick }) {
       return null;
     }
 
+    const handleSelect = (ele) => {
+      handleClick(ele);
+    };
+
     const spouse = person.spouse;
     const children = person.children;
 
@@ -15,7 +19,7 @@ function PersonNode({ person, handleClick }) {
         <div className='parent'>
           <div className='person-details'>
             <div
-              onClick={() => handleClick(person)}
+              onClick={() => handleSelect(person)}
               className={`circle-container${
                 person.gender === 'male' ? '' : ' female'
               }`}>
@@ -35,7 +39,7 @@ function PersonNode({ person, handleClick }) {
                   key={ele.id}
                   className='spouse-details'>
                   <div
-                    onClick={() => handleClick(ele)}
+                    onClick={() => handleSelect(ele)}
                     className={`circle-container${
                       ele.gender === 'male' ? '' : ' female'
                     }`}>

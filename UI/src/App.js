@@ -32,7 +32,6 @@ function App() {
     setForm(true);
     setFormInput(input);
   };
-
   return (
     <div className='App'>
       <div className='display-Tree'>
