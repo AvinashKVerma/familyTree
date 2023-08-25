@@ -32,6 +32,36 @@ function App() {
     setForm(true);
     setFormInput(input);
   };
+
+  const handleClose = () => {
+    setForm(false);
+  };
+
+  const handleSubmit = (data) => {
+    const spouse = data.spouse.map((ele) => {
+      return ele.id;
+    });
+    const updatedData = {
+      name: data.name,
+      img: data.img,
+      gender: data.gender,
+      mid: data.mid,
+      fid: data.fid,
+      spouse: spouse,
+      title: data.title,
+      children: data.children,
+    };
+    axios
+      .put(`http://localhost:3005/update/${data.id}`, updatedData)
+      .then((response) => {
+        console.log('User updated successfully:', response.data);
+        fetchData();
+      })
+      .catch((error) => {
+        console.error('Error updating user:', error);
+      });
+  };
+
   return (
     <div className='App'>
       <div className='display-Tree'>
@@ -46,7 +76,12 @@ function App() {
       </div>
       {form && (
         <div className='form-container'>
-          <Form selectedItem={formInput} />
+          <Form
+            selectedItem={formInput}
+            handleSubmit={handleSubmit}
+            handleClick={handleClose}
+            fetchData={fetchData}
+          />
         </div>
       )}
     </div>

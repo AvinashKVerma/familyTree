@@ -16,9 +16,11 @@ function build_family_tree(data, id) {
       name: entry.name,
       gender: entry.gender,
       spouse: [...wifee],
-      img: [entry.img],
+      img: entry.img,
       title: entry.title,
       children: [],
+      mid: entry.mid,
+      fid: entry.fid,
     };
     person_dict[person.id] = person;
   });

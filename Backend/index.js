@@ -87,35 +87,35 @@ app.put('/testData/:id', (req, res) => {
 });
 
 // POST Method
-app.put('/update/:id', async (req, res) => {
-  const { id } = req.params;
-  const { name, img, gender, mid, fid, spouse, title } = req.body;
+// app.put('/update/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const { name, img, gender, mid, fid, spouse, title } = req.body;
 
-  const updateQuery = `
-    UPDATE familytree
-    SET name = $1, img = $2, gender = $3, mid = $4, fid = $5, spouse = $6, title = $7
-    WHERE id = $8
-    RETURNING *`;
+//   const updateQuery = `
+//     UPDATE familytree
+//     SET name = $1, img = $2, gender = $3, mid = $4, fid = $5, spouse = $6, title = $7
+//     WHERE id = $8
+//     RETURNING *`;
 
-  const values = [name, img, gender, mid, fid, spouse, title, id];
+//   const values = [name, img, gender, mid, fid, spouse, title, id];
 
-  pool
-    .query(updateQuery, values)
-    .then((updatedData) => {
-      if (updatedData.rows.length === 0) {
-        return res.status(404).json({ error: 'Data not found or not updated' });
-      }
+//   pool
+//     .query(updateQuery, values)
+//     .then((updatedData) => {
+//       if (updatedData.rows.length === 0) {
+//         return res.status(404).json({ error: 'Data not found or not updated' });
+//       }
 
-      res.status(200).json({
-        message: 'Data updated successfully!',
-        updatedData: updatedData.rows[0],
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    });
-});
+//       res.status(200).json({
+//         message: 'Data updated successfully!',
+//         updatedData: updatedData.rows[0],
+//       });
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     });
+// });
 
 // POST Method
 app.post('/users', async (req, res) => {
@@ -162,8 +162,7 @@ app.put('/update/:id', async (req, res) => {
         SET name = $1, img = $2, gender = $3, mid = $4, fid = $5, spouse=$6, title=$7
         WHERE id = $8
         RETURNING *`;
-    const values = [id, name, img, gender, mid, fid, spouse, title];
-
+    const values = [name, img, gender, mid, fid, spouse, title, id];
     const { rows } = await pool.query(queryText, values);
 
     if (rows.length === 0) {
