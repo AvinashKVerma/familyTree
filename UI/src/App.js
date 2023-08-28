@@ -38,9 +38,13 @@ function App() {
   };
 
   const handleSubmit = (data) => {
-    const spouse = data.spouse.map((ele) => {
-      return ele.id;
-    });
+    console.log('handle Submitted');
+    let spouse = [];
+    if (Array.isArray(data.spouse)) {
+      spouse = data.spouse.map((ele) => ele.id);
+    } else {
+      spouse = [];
+    }
     const updatedData = {
       name: data.name,
       img: data.img,

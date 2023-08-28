@@ -87,43 +87,12 @@ app.put('/testData/:id', (req, res) => {
 });
 
 // POST Method
-// app.put('/update/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const { name, img, gender, mid, fid, spouse, title } = req.body;
-
-//   const updateQuery = `
-//     UPDATE familytree
-//     SET name = $1, img = $2, gender = $3, mid = $4, fid = $5, spouse = $6, title = $7
-//     WHERE id = $8
-//     RETURNING *`;
-
-//   const values = [name, img, gender, mid, fid, spouse, title, id];
-
-//   pool
-//     .query(updateQuery, values)
-//     .then((updatedData) => {
-//       if (updatedData.rows.length === 0) {
-//         return res.status(404).json({ error: 'Data not found or not updated' });
-//       }
-
-//       res.status(200).json({
-//         message: 'Data updated successfully!',
-//         updatedData: updatedData.rows[0],
-//       });
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//     });
-// });
-
-// POST Method
 app.post('/users', async (req, res) => {
   try {
-    const { name, img, gender, mid, fid, spouse, title } = req.body;
+    const { name, img, gender, mid, fid, title } = req.body;
     const queryText =
-      'INSERT INTO familytree (name, img, gender, mid, fid, spouse, title) VALUES ($1, $2, $3 ,$4, $5, $6, $7) RETURNING *';
-    const values = [name, img, gender, mid, fid, spouse, title];
+      'INSERT INTO familytree (name, img, gender, mid, fid, title) VALUES ($1, $2, $3 ,$4, $5, $6) RETURNING *';
+    const values = [name, img, gender, mid, fid, title];
 
     const { rows } = await pool.query(queryText, values);
 
@@ -137,19 +106,45 @@ app.post('/users', async (req, res) => {
   }
 });
 
-//DELETE method
-app.delete('/delete/:id', (req, res) => {
-  const { id } = req.params;
+// //DELETE method
+// app.delete('/delete/:id', (req, res) => {
+//   const { id } = req.params;
 
-  pool.query('DELETE FROM familytree WHERE id = $1', [id], (err, result) => {
-    if (err) {
-      console.error('Error deleting item:', err);
-      res.status(500).json({ error: 'Internal server error' });
-    } else {
-      console.log('Item deleted successfully');
-      res.status(200).json({ message: 'Item deleted successfully' });
+//   pool.query('DELETE FROM familytree WHERE id = $1', [id], (err, result) => {
+//     if (err) {
+//       console.error('Error deleting item:', err);
+//       res.status(500).json({ error: 'Internal server error' });
+//     } else {
+//       console.log('Item deleted successfully');
+//       res.status(200).json({ message: 'Item deleted successfully' });
+//     }
+//   });
+// });
+
+//DELETE using PUT method
+app.put('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const queryText = `
+        UPDATE familytree
+        SET display = false
+        WHERE id = $1
+        RETURNING *`;
+    const values = [id];
+    const { rows } = await pool.query(queryText, values);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
     }
-  });
+
+    res.status(200).json({
+      message: 'User updated successfully!',
+      user: rows[0],
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 //PUT Method

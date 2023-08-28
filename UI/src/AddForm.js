@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Form.css';
 
 const AddForm = (props) => {
-  const { selectedItem, handleSubmit, setFormSwap, formSwap } = props;
+  const {
+    selectedItem,
+    handleSubmit,
+    setFormSwap,
+    formSwap,
+    addElement,
+    selectedOption,
+    fetchData,
+  } = props;
 
   const [name, setName] = useState(selectedItem.name ? selectedItem.name : '');
   const [title, setTitle] = useState(
@@ -21,16 +30,25 @@ const AddForm = (props) => {
 
   const mid = selectedItem.mid ? selectedItem.mid : null;
   const fid = selectedItem.fid ? selectedItem.fid : null;
+  const [newMId, setNewMId] = useState('');
+  const [newFId, setNewFId] = useState('');
 
   useEffect(() => {
-    setName(selectedItem.name);
-    setGender(selectedItem.gender);
-    selectedItem.title ? setTitle(selectedItem.title) : setTitle('');
-    selectedItem.image && setImage(selectedItem.image);
-    selectedItem.spouse && setSpouse(selectedItem.spouse);
-    selectedItem.img && setImage(selectedItem.img);
-    selectedItem.children && setChildren(selectedItem.children);
-  }, [selectedItem]);
+    if (addElement) {
+      setName('');
+      setTitle('');
+      setGender('');
+      setImage('');
+    } else {
+      setName(selectedItem.name);
+      setGender(selectedItem.gender);
+      selectedItem.title ? setTitle(selectedItem.title) : setTitle('');
+      selectedItem.image && setImage(selectedItem.image);
+      selectedItem.spouse && setSpouse(selectedItem.spouse);
+      selectedItem.img && setImage(selectedItem.img);
+      selectedItem.children && setChildren(selectedItem.children);
+    }
+  }, [selectedItem, addElement]);
 
   const handleGenderChange = (event) => {
     const selectedGender = event.target.value;
@@ -51,13 +69,97 @@ const AddForm = (props) => {
       fid: fid,
     };
     setFormSwap(!formSwap);
-    handleSubmit(data);
+    addElement ? handleNewNode(data) : handleSubmit(data);
   };
+
+  const handleNewNode = () => {
+    if (selectedItem.gender === 'male') {
+      setNewFId(selectedItem.id);
+      if (selectedItem.spouse.length < 2) {
+        setNewMId(selectedItem.spouse[0].id);
+      }
+    }
+    if (selectedItem.gender === 'female') {
+      setNewMId(selectedItem.id);
+      if (selectedItem.spouse.length < 2) {
+        setNewFId(selectedItem.spouse[0].id);
+      }
+    }
+  };
+  // eslint-disable-next-line
+  useEffect(() => {
+    if (newMId !== '' && newFId !== '') {
+      // Create the new data object
+      const newData = {
+        name: name,
+        img: image,
+        gender: gender,
+        mid: newMId,
+        fid: newFId,
+        title: title,
+      };
+
+      axios
+        .post('http://localhost:3005/users', newData)
+        .then((response) => {
+          fetchData(); // Fetch updated data after successful POST
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
+  }, [newFId, newMId, gender, image, name, spouse, title]);
+
   return (
     <div>
       <form onSubmit={handleSubmitt}>
         {formSwap ? (
           <div className='input-form'>
+            {selectedOption === 'Child' &&
+              selectedItem.spouse &&
+              (() => {
+                if (selectedItem.spouse.length > 1) {
+                  return selectedItem.spouse.length > 1
+                    ? selectedItem.gender === 'male' && (
+                        <div>
+                          <label>Mother</label>
+                          {selectedItem.spouse.map((ele) => {
+                            return (
+                              <label key={ele.id}>
+                                <input
+                                  type='radio'
+                                  value={ele.name}
+                                  checked={newMId === ele.id}
+                                  onChange={(e) => setNewMId(ele.id)}
+                                />
+                                {ele.name}
+                              </label>
+                            );
+                          })}
+                        </div>
+                      )
+                    : selectedItem.gender === 'female' && (
+                        <div>
+                          <label>Father</label>
+                          {selectedItem.spouse.map((ele) => {
+                            return (
+                              <label key={ele.id}>
+                                <input
+                                  type='radio'
+                                  value={ele.name}
+                                  checked={newFId === ele.id}
+                                  onChange={(e) => setNewFId(ele.id)}
+                                />
+                                {ele.name}
+                              </label>
+                            );
+                          })}
+                        </div>
+                      );
+                } else {
+                  return null;
+                }
+              })()}
             <div>
               <label>Name:</label>
               <input
