@@ -16,9 +16,9 @@ function PersonNode({ person, handleClick }) {
 
     return (
       <div>
-        {person.display && (
+        {person.display === true && (
           <div className='person-node'>
-            {person.display && (
+            {person.display === true && (
               <div className='parent'>
                 <div className='person-details'>
                   <div
@@ -38,22 +38,24 @@ function PersonNode({ person, handleClick }) {
                 {spouse &&
                   spouse.map((ele) => {
                     return (
-                      <div
-                        key={ele.id}
-                        className='spouse-details'>
-                        <div
-                          onClick={() => handleSelect(ele)}
-                          className={`circle-container${
-                            ele.gender === 'male' ? '' : ' female'
-                          }`}>
-                          <img
-                            className='circle-image'
-                            src={`./Resources/${ele.img}.png`}
-                            alt={ele.img}
-                          />
-                        </div>
-                        <div className='spouse-name'>{ele.name}</div>
-                        <div className='spouse-gender'>{ele.title}</div>
+                      <div key={ele.id}>
+                        {ele.display && (
+                          <div className='spouse-details'>
+                            <div
+                              onClick={() => handleSelect(ele)}
+                              className={`circle-container${
+                                ele.gender === 'male' ? '' : ' female'
+                              }`}>
+                              <img
+                                className='circle-image'
+                                src={`./Resources/${ele.img}.png`}
+                                alt={ele.img}
+                              />
+                            </div>
+                            <div className='spouse-name'>{ele.name}</div>
+                            <div className='spouse-gender'>{ele.title}</div>
+                          </div>
+                        )}
                       </div>
                     );
                   })}

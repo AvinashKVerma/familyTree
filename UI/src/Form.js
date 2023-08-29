@@ -22,7 +22,9 @@ const Form = (props) => {
   const [image, setImage] = useState(selectedItem.img ? selectedItem.img : '');
   const [formSwap, setFormSwap] = useState(false);
   const [addElement, setAddElement] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null); //Selection Option For Child or Spouse
+  const [selectedOption, setSelectedOption] = useState(
+    selectedItem.spouse.length >= 1 ? 'Child' : 'Spouse',
+  ); //Selection Option For Child or Spouse
 
   // const id = selectedItem.id;
 
@@ -97,8 +99,8 @@ const Form = (props) => {
               </button>
               {addElement && (
                 <div>
-                  {selectedItem.spouse.length > 1 && (
-                    <div>
+                  <div>
+                    {selectedItem.spouse.length >= 1 && (
                       <label>
                         <input
                           type='radio'
@@ -108,17 +110,18 @@ const Form = (props) => {
                         />
                         Child
                       </label>
-                      <label>
-                        <input
-                          type='radio'
-                          value='Spouse'
-                          checked={selectedOption === 'Spouse'}
-                          onChange={(e) => setSelectedOption(e.target.value)}
-                        />
-                        Spouse
-                      </label>
-                    </div>
-                  )}
+                    )}
+
+                    <label>
+                      <input
+                        type='radio'
+                        value='Spouse'
+                        checked={selectedOption === 'Spouse'}
+                        onChange={(e) => setSelectedOption(e.target.value)}
+                      />
+                      Spouse
+                    </label>
+                  </div>
                 </div>
               )}
             </div>
