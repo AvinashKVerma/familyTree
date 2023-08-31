@@ -95,7 +95,6 @@ const AddForm = (props) => {
         mid: null,
         fid: null,
         title: title,
-        spouse: selectedItem.id,
       };
       axios
         .post('http://localhost:3005/users', newData)
@@ -156,19 +155,20 @@ const AddForm = (props) => {
                     ? selectedItem.gender === 'male' && (
                         <div>
                           <label>Mother</label>
-                          {selectedItem.spouse.map((ele) => {
-                            return (
-                              <label key={ele.id}>
-                                <input
-                                  type='radio'
-                                  value={ele.name}
-                                  checked={newMId === ele.id}
-                                  onChange={(e) => setNewMId(ele.id)}
-                                />
-                                {ele.name}
-                              </label>
-                            );
-                          })}
+                          {selectedItem.spouse !== null &&
+                            selectedItem.spouse.map((ele) => {
+                              return (
+                                <label key={ele.id}>
+                                  <input
+                                    type='radio'
+                                    value={ele.name}
+                                    checked={newMId === ele.id}
+                                    onChange={(e) => setNewMId(ele.id)}
+                                  />
+                                  {ele.name}
+                                </label>
+                              );
+                            })}
                         </div>
                       )
                     : selectedItem.gender === 'female' && (

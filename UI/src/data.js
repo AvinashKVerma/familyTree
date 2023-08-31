@@ -40,6 +40,7 @@ function build_family_tree(data, id) {
       }
     }
   });
+
   const rootPerson = person_dict[id];
   return rootPerson;
 }

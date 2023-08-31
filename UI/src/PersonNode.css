@@ -1,4 +1,4 @@
-/* PersonNode.css */
+/*PersonNode.css */
 
 .person-node {
   display: flex;
@@ -7,7 +7,6 @@
   margin: 10px;
   padding: 10px;
   border-radius: 5px;
-  /* background-color: #f0f0f0; */
 }
 
 .parent {
@@ -31,28 +30,114 @@
 
 .tree {
   list-style-type: none;
-  padding: 0;
+  /* padding: 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+.tree ul {
+  padding-top: 20px;
+  position: relative;
+  transition: 0.5s;
 }
 
 .tree li {
-  margin: 10px;
+  /* margin: 10px;
+  height: fit-content; */
+  display: inline-table;
+  text-align: center;
+  list-style-type: none;
+  padding: 10px;
+  transition: 0.5s;
+  position: relative; /*    */
+}
+
+.tree li > .children {
+  margin-top: 20px; /* Adjust this value as needed */
+}
+
+.tree li:after,
+.tree li:before {
+  display: none;
+}
+
+.tree li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.tree li:before,
+.tree li:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 1px solid #ccc;
+  width: 51%;
+  height: 10px;
+}
+
+.tree li:after {
+  right: auto;
+  left: 50%;
+  border-left: 1px solid #ccc;
+}
+
+.tree li:only-child:after,
+.tree li:only-child:before {
+  display: none;
+}
+
+.tree li:only-child {
+  padding-top: 0;
+}
+
+.tree li:first-child:before,
+.tree li:last-child:after {
+  border: 0 none;
+}
+
+.tree li:last-child:before {
+  border-right: 1px solid #ccc;
+  border-radius: 0 5px 0 0;
+}
+
+.tree li:first-child:after {
+  border-right: 1px solid #ccc;
+  border-radius: 5px 0 0 0;
+}
+
+.tree ul ul:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1px solid #ccc;
+  width: 0;
+  height: 20px;
 }
 
 .circle-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%; /* Make it circular */
-  border: 5px solid #007bffbd; /* Set the border color and thickness */
-  overflow: hidden; /* Hide overflow if image is larger than container */
+  border-radius: 50%;
+  border: 5px solid #007bffbd;
+  overflow: hidden;
 }
 
 .circle-image {
   width: 120px;
   height: 120px;
-  object-fit: cover; /* Maintain aspect ratio */
+  object-fit: cover;
   padding: 3px;
 }
 

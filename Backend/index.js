@@ -148,6 +148,51 @@ app.put('/delete/:id', async (req, res) => {
 });
 
 //Add spouse using PUT method
+// app.put('/spouse/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const newSpouseId = uniqueId;
+
+//   try {
+//     const fetchQuery = 'SELECT spouse FROM familytree WHERE id = $1';
+//     const fetchValues = [id];
+//     const fetchResult = await pool.query(fetchQuery, fetchValues);
+
+//     let currentSpouseIds = fetchResult.rows[0].spouse;
+
+//     // Initialize the spouse array if it's not set or is null
+//     if (!currentSpouseIds) {
+//       currentSpouseIds = [];
+//     }
+
+//     // Ensure currentSpouseIds is an array
+//     if (!Array.isArray(currentSpouseIds)) {
+//       currentSpouseIds = [currentSpouseIds];
+//     }
+
+//     // Add the new spouse ID if it's not already in the array
+//     if (!currentSpouseIds.includes(newSpouseId)) {
+//       currentSpouseIds.push(newSpouseId);
+//     }
+
+//     const updateQuery = `
+//       UPDATE familytree
+//       SET spouse = $2
+//       WHERE id = $1
+//       RETURNING *`;
+//     const updateValues = [id, currentSpouseIds];
+
+//     const { rows } = await pool.query(updateQuery, updateValues);
+
+//     res.status(200).json({
+//       message: 'User updated successfully!',
+//       user: rows[0],
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
 app.put('/spouse/:id', async (req, res) => {
   const { id } = req.params;
   const newSpouseId = uniqueId;
@@ -179,7 +224,7 @@ app.put('/spouse/:id', async (req, res) => {
       SET spouse = $2
       WHERE id = $1
       RETURNING *`;
-    const updateValues = [id, currentSpouseIds];
+    const updateValues = [id, currentSpouseIds]; // Use the array directly
 
     const { rows } = await pool.query(updateQuery, updateValues);
 

@@ -38,7 +38,9 @@ function PersonNode({ person, handleClick }) {
                 {spouse &&
                   spouse.map((ele) => {
                     return (
-                      <div key={ele.id}>
+                      <div
+                        key={ele.id}
+                        className='connection-line'>
                         {ele.display && (
                           <div className='spouse-details'>
                             <div
@@ -64,11 +66,14 @@ function PersonNode({ person, handleClick }) {
 
             <ul className='children'>
               {children.map((child) => (
-                <PersonNode
+                <div
                   key={child.id}
-                  person={child}
-                  handleClick={handleClick}
-                />
+                  className='connection-line'>
+                  <PersonNode
+                    person={child}
+                    handleClick={handleClick}
+                  />
+                </div>
               ))}
             </ul>
           </div>

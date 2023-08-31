@@ -23,7 +23,7 @@ const Form = (props) => {
   const [formSwap, setFormSwap] = useState(false);
   const [addElement, setAddElement] = useState(false);
   const [selectedOption, setSelectedOption] = useState(
-    selectedItem.spouse.length >= 1 ? 'Child' : 'Spouse',
+    selectedItem.spouse && selectedItem.spouse.length >= 1 ? 'Child' : 'Spouse',
   ); //Selection Option For Child or Spouse
 
   // const id = selectedItem.id;
@@ -100,17 +100,25 @@ const Form = (props) => {
               {addElement && (
                 <div>
                   <div>
-                    {selectedItem.spouse.length >= 1 && (
-                      <label>
-                        <input
-                          type='radio'
-                          value='Child'
-                          checked={selectedOption === 'Child'}
-                          onChange={(e) => setSelectedOption(e.target.value)}
-                        />
-                        Child
-                      </label>
-                    )}
+                    {selectedItem.spouse &&
+                      selectedItem.spouse.length >= 1 &&
+                      selectedItem.spouse.every((ele) => {
+                        let disp;
+                        if (ele.display) {
+                          disp = ele.display;
+                        }
+                        return disp;
+                      }) && (
+                        <label>
+                          <input
+                            type='radio'
+                            value='Child'
+                            checked={selectedOption === 'Child'}
+                            onChange={(e) => setSelectedOption(e.target.value)}
+                          />
+                          Child
+                        </label>
+                      )}
 
                     <label>
                       <input
