@@ -1,3 +1,148 @@
+/*PersonNode.css */
+
+.person-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.parent {
+  display: flex;
+}
+.person-details {
+  text-align: center;
+  position: relative;
+}
+
+.spouse-details {
+  text-align: center;
+  padding-left: 20px;
+}
+
+.children {
+  display: flex;
+  list-style-type: none;
+}
+
+.tree {
+  list-style-type: none;
+  /* padding: 0;
+  display: flex;
+  flex-wrap: wrap; */
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+.tree ul {
+  position: relative;
+  transition: 0.5s;
+  justify-content: center;
+}
+
+.tree li {
+  /* margin: 10px;
+  height: fit-content; */
+  display: inline-table;
+  text-align: center;
+  list-style-type: none;
+  padding: 0 20px;
+  transition: 0.5s;
+  position: relative; /*    */
+}
+
+.tree li > .children {
+  margin-top: 20px; /* Adjust this value as needed */
+}
+
+.circle-container {
+  display: flex;
+  padding: 4px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 5px solid #007bffbd;
+
+  cursor: pointer;
+}
+
+.circle-image {
+  overflow: hidden;
+  background: #ccc;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+.circle-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.circle-container.female {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border-color: #ff00ff5e;
+  overflow: hidden;
+}
+
+.Personnn {
+  display: flex;
+}
+
+/* .Childrennn .person-details {
+} */
+
+.Childrennn {
+  display: flex;
+  position: absolute;
+  padding-top: 40px;
+  /* border-top: 1px solid #dcdcdc; */
+}
+
+.Childrennn:before {
+  content: '';
+  width: calc(100% - 170px);
+  position: absolute;
+  border-top: 1px solid #dcdcdc;
+  display: block;
+  left: 85px;
+  top: 0;
+}
+.spouse-hogaya .Childrennn:before {
+  width: calc(100% - 318px);
+}
+
+.top-line {
+  height: 40px;
+  width: 1px;
+  background-color: #dcdcdc;
+}
+
+.bottom-line {
+  content: '';
+  height: 40px;
+  width: 1px;
+  background-color: #dcdcdc;
+  display: block;
+  position: absolute;
+
+  left: 50%;
+  top: -40px;
+}
+
+.person-node:hover
+  ~ .children
+  .Childrennn
+  .connection-line
+  .person-node::before {
+  width: 140px;
+  height: 140px;
+}
+
 .App {
   display: flex;
 }

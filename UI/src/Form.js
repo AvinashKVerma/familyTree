@@ -22,7 +22,9 @@ const Form = (props) => {
   const [image, setImage] = useState(selectedItem.img ? selectedItem.img : '');
   const [formSwap, setFormSwap] = useState(false);
   const [addElement, setAddElement] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null); //Selection Option For Child or Spouse
+  const [selectedOption, setSelectedOption] = useState(
+    selectedItem.spouse && selectedItem.spouse.length >= 1 ? 'Child' : 'Spouse',
+  ); //Selection Option For Child or Spouse
 
   // const id = selectedItem.id;
 
@@ -97,28 +99,37 @@ const Form = (props) => {
               </button>
               {addElement && (
                 <div>
-                  {selectedItem.spouse.length > 1 && (
-                    <div>
-                      <label>
-                        <input
-                          type='radio'
-                          value='Child'
-                          checked={selectedOption === 'Child'}
-                          onChange={(e) => setSelectedOption(e.target.value)}
-                        />
-                        Child
-                      </label>
-                      <label>
-                        <input
-                          type='radio'
-                          value='Spouse'
-                          checked={selectedOption === 'Spouse'}
-                          onChange={(e) => setSelectedOption(e.target.value)}
-                        />
-                        Spouse
-                      </label>
-                    </div>
-                  )}
+                  <div>
+                    {selectedItem.spouse &&
+                      selectedItem.spouse.length >= 1 &&
+                      selectedItem.spouse.every((ele) => {
+                        let disp;
+                        if (ele.display) {
+                          disp = ele.display;
+                        }
+                        return disp;
+                      }) && (
+                        <label>
+                          <input
+                            type='radio'
+                            value='Child'
+                            checked={selectedOption === 'Child'}
+                            onChange={(e) => setSelectedOption(e.target.value)}
+                          />
+                          Child
+                        </label>
+                      )}
+
+                    <label>
+                      <input
+                        type='radio'
+                        value='Spouse'
+                        checked={selectedOption === 'Spouse'}
+                        onChange={(e) => setSelectedOption(e.target.value)}
+                      />
+                      Spouse
+                    </label>
+                  </div>
                 </div>
               )}
             </div>

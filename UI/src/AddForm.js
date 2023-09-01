@@ -73,32 +73,29 @@ const AddForm = (props) => {
   };
 
   const handleNewNode = () => {
-    if (selectedItem.gender === 'male') {
-      setNewFId(selectedItem.id);
-      if (selectedItem.spouse.length < 2) {
-        setNewMId(selectedItem.spouse[0].id);
+    if (selectedOption === 'Child') {
+      if (selectedItem.gender === 'male') {
+        setNewFId(selectedItem.id);
+        if (selectedItem.spouse.length < 2) {
+          setNewMId(selectedItem.spouse[0].id);
+        }
       }
-    }
-    if (selectedItem.gender === 'female') {
-      setNewMId(selectedItem.id);
-      if (selectedItem.spouse.length < 2) {
-        setNewFId(selectedItem.spouse[0].id);
+      if (selectedItem.gender === 'female') {
+        setNewMId(selectedItem.id);
+        if (selectedItem.spouse.length < 2) {
+          setNewFId(selectedItem.spouse[0].id);
+        }
       }
-    }
-  };
-  // eslint-disable-next-line
-  useEffect(() => {
-    if (newMId !== '' && newFId !== '') {
-      // Create the new data object
+    } else {
+      console.log('==========>');
       const newData = {
         name: name,
         img: image,
         gender: gender,
-        mid: newMId,
-        fid: newFId,
+        mid: null,
+        fid: null,
         title: title,
       };
-
       axios
         .post('http://localhost:3005/users', newData)
         .then((response) => {
@@ -107,6 +104,41 @@ const AddForm = (props) => {
         .catch((err) => {
           console.log(err.message);
         });
+
+      axios
+        .put(`http://localhost:3005/spouse/${selectedItem.id}`)
+        .then((response) => {
+          console.log('User updated successfully:', response.data);
+          fetchData();
+        })
+        .catch((error) => {
+          console.error('Error updating user:', error);
+        });
+    }
+  };
+  // eslint-disable-next-line
+  useEffect(() => {
+    if (selectedOption === 'Child') {
+      if (newMId !== '' && newFId !== '') {
+        // Create the new data object
+        const newData = {
+          name: name,
+          img: image,
+          gender: gender,
+          mid: newMId,
+          fid: newFId,
+          title: title,
+        };
+
+        axios
+          .post('http://localhost:3005/users', newData)
+          .then((response) => {
+            fetchData(); // Fetch updated data after successful POST
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      }
     }
   }, [newFId, newMId, gender, image, name, spouse, title]);
 
@@ -123,19 +155,20 @@ const AddForm = (props) => {
                     ? selectedItem.gender === 'male' && (
                         <div>
                           <label>Mother</label>
-                          {selectedItem.spouse.map((ele) => {
-                            return (
-                              <label key={ele.id}>
-                                <input
-                                  type='radio'
-                                  value={ele.name}
-                                  checked={newMId === ele.id}
-                                  onChange={(e) => setNewMId(ele.id)}
-                                />
-                                {ele.name}
-                              </label>
-                            );
-                          })}
+                          {selectedItem.spouse !== null &&
+                            selectedItem.spouse.map((ele) => {
+                              return (
+                                <label key={ele.id}>
+                                  <input
+                                    type='radio'
+                                    value={ele.name}
+                                    checked={newMId === ele.id}
+                                    onChange={(e) => setNewMId(ele.id)}
+                                  />
+                                  {ele.name}
+                                </label>
+                              );
+                            })}
                         </div>
                       )
                     : selectedItem.gender === 'female' && (

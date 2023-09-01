@@ -25,7 +25,7 @@ function App() {
       });
   };
 
-  const rootPersonId = 20; // Change this to the appropriate root person's ID
+  const rootPersonId = '1693296297868'; // Change this to the appropriate root person's ID
   const familyTree = build_family_tree(data, rootPersonId);
 
   const handleClick = (input) => {
