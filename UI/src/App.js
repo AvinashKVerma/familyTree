@@ -70,12 +70,12 @@ function App() {
     <div className='App'>
       <div className='display-Tree'>
         {familyTree && (
-          <ul>
+          <div>
             <PersonNode
               person={familyTree}
               handleClick={handleClick}
             />
-          </ul>
+          </div>
         )}
       </div>
       {form && (

@@ -22,35 +22,35 @@
 
 .children {
   display: flex;
-  list-style-type: none;
-}
-
-.tree {
-  list-style-type: none;
-  /* padding: 0;
-  display: flex;
-  flex-wrap: wrap; */
-  width: 100%;
-  height: auto;
-  text-align: center;
-}
-
-.tree ul {
-  position: relative;
-  transition: 0.5s;
   justify-content: center;
 }
 
-.tree li {
-  /* margin: 10px;
-  height: fit-content; */
+/* .tree {
+  list-style-type: none;
+  /padding: 0;
+  display: flex;
+  flex-wrap: wrap; 
+  width: 100%;
+  height: auto;
+  text-align: center;
+} */
+
+/* .tree ul {
+  position: relative;
+  transition: 0.5s;
+  justify-content: center;
+} */
+
+/* .tree li {
+  margin: 10px;
+  height: fit-content;
   display: inline-table;
   text-align: center;
   list-style-type: none;
   padding: 0 20px;
   transition: 0.5s;
-  position: relative; /*    */
-}
+  position: relative; 
+} */
 
 .tree li > .children {
   margin-top: 20px; /* Adjust this value as needed */
@@ -103,18 +103,19 @@
   /* border-top: 1px solid #dcdcdc; */
 }
 
-.Childrennn:before {
+/* .Childrennn:before {
   content: '';
   width: calc(100% - 170px);
   position: absolute;
-  border-top: 1px solid #dcdcdc;
-  display: block;
-  left: 85px;
+  /* border-top: 1px solid #dcdcdc; */
+/* display: block;
+  left: 102px;
   top: 0;
-}
-.spouse-hogaya .Childrennn:before {
+} */
+/*
+.spouse-present .Childrennn:before {
   width: calc(100% - 318px);
-}
+} */
 
 .top-line {
   height: 40px;
@@ -134,14 +135,14 @@
   top: -40px;
 }
 
-.person-node:hover
+/* .person-node:hover
   ~ .children
   .Childrennn
   .connection-line
   .person-node::before {
   width: 140px;
   height: 140px;
-}
+} */
 
 .App {
   display: flex;
@@ -161,4 +162,18 @@
   display: flex;
   z-index: 100;
   border-radius: 15px;
+}
+
+.connection-line {
+  border-top: 1px solid #dcdcdc;
+  position: relative;
+  top: -40px;
+  left: 50%;
+}
+
+.connection-linefalse {
+  border-top: 1px solid #dcdcdc;
+  position: relative;
+  top: -40px;
+  right: 50%;
 }

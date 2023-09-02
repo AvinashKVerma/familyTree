@@ -2,6 +2,8 @@ import React from 'react';
 import './PersonNode.css'; // Import your CSS file
 
 function PersonNode({ person, handleClick }) {
+  const spouse = person.spouse;
+  const children = person.children;
   const renderPerson = (person) => {
     if (!person) {
       return null;
@@ -10,9 +12,6 @@ function PersonNode({ person, handleClick }) {
     const handleSelect = (ele) => {
       handleClick(ele);
     };
-
-    const spouse = person.spouse;
-    const children = person.children;
 
     return (
       <div>
@@ -23,7 +22,6 @@ function PersonNode({ person, handleClick }) {
                 <div className={`Personnn Person-${person.id}`}>
                   <div className='person-details'>
                     <div className='bottom-line'></div>
-
                     <div
                       onClick={() => handleSelect(person)}
                       className={`circle-container${
@@ -70,14 +68,43 @@ function PersonNode({ person, handleClick }) {
               className={`${
                 person.children && person.children.length >= 1 ? 'top-line' : ''
               }`}></div>
-            <ul className={`children ${person.spouse && 'spouse-hogaya'}`}>
+            <div className={`children ${person.spouse && 'spouse-present'}`}>
               <div className={`Childrennn Children-${person.id}`}>
                 {children.map(
                   (child) =>
                     child.display && (
                       <div
-                        key={child.id}
-                        className='connection-line'>
+                        className='siblings'
+                        key={child.id}>
+                        <div
+                          style={
+                            child.spouse.filter((ele) => ele.display).length >
+                              0 && child.id !== children[children.length - 1].id
+                              ? {
+                                  borderTop: '1px solid #dcdcdc',
+                                  position: 'relative',
+                                  top: '-40px',
+                                  left: `calc(${
+                                    100 / ((child.spouse.length + 1) * 2)
+                                  }% + -6px)`,
+                                }
+                              : {} // Empty object for no styles when the condition is false
+                          }
+                          className={`connection-line${
+                            child.id !== children[children.length - 1].id
+                              ? child.spouse.filter((ele) => {
+                                  if (ele.display) {
+                                    return ele.display;
+                                  }
+                                }).length > 0
+                                ? `-with-spouse`
+                                : ''
+                              : child.spouse.filter((ele) => {
+                                  if (ele.display) {
+                                    return ele.display;
+                                  }
+                                }).length > 0 && '-last'
+                          }`}></div>
                         <PersonNode
                           person={child}
                           handleClick={handleClick}
@@ -86,14 +113,14 @@ function PersonNode({ person, handleClick }) {
                     ),
                 )}
               </div>
-            </ul>
+            </div>
           </div>
         )}
       </div>
     );
   };
 
-  return <li className='tree'>{renderPerson(person)}</li>;
+  return <div className='tree'>{renderPerson(person)}</div>;
 }
 
 export default PersonNode;
