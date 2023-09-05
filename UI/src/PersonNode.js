@@ -196,6 +196,12 @@ function PersonNode({ person, handleClick, isLastChild }) {
                               <div className='spouse-name'>{ele.name}</div>
                               <div className='spouse-gender'>{ele.title}</div>
                             </div>
+                            <div
+                              className={`${
+                                person.children && person.children.length >= 1
+                                  ? 'top-line'
+                                  : ''
+                              }`}></div>
                           </div>
                         )
                       );
@@ -203,10 +209,7 @@ function PersonNode({ person, handleClick, isLastChild }) {
                 </div>
               </div>
             )}
-            <div
-              className={`${
-                person.children && person.children.length >= 1 ? 'top-line' : ''
-              }`}></div>
+
             <div className={`children ${person.spouse && 'spouse-present'}`}>
               <div className={`Childrennn Children-${person.id}`}>
                 {children.map((child, index) => {
