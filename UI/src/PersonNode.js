@@ -128,7 +128,7 @@
 
 // export default PersonNode;
 
-import React from 'react';
+import React, { useState } from 'react';
 import './PersonNode.css'; // Import your CSS file
 
 function PersonNode({ person, handleClick, isLastChild }) {
@@ -136,6 +136,7 @@ function PersonNode({ person, handleClick, isLastChild }) {
   const childrenn = person.children;
 
   const children = childrenn.filter((ele) => ele.display === true);
+  const [spouseCount, setSpouseCount] = useState(0);
 
   const renderPerson = (person) => {
     if (!person) {
@@ -144,6 +145,10 @@ function PersonNode({ person, handleClick, isLastChild }) {
 
     const handleSelect = (ele) => {
       handleClick(ele);
+    };
+
+    const setCount = () => {
+      setSpouseCount(0);
     };
 
     return (
@@ -171,9 +176,9 @@ function PersonNode({ person, handleClick, isLastChild }) {
                     <div className='person-gender'>{person.title}</div>
                   </div>
                   {spouse &&
-                    spouse.map((ele) => {
-                      return (
-                        ele.display && (
+                    spouse.map((ele, index) => {
+                      if (ele.display) {
+                        return (
                           <div key={ele.id}>
                             <div
                               className={`spouse-details${
@@ -194,17 +199,24 @@ function PersonNode({ person, handleClick, isLastChild }) {
                                 />
                               </div>
                               <div className='spouse-name'>{ele.name}</div>
-                              <div className='spouse-gender'>{ele.title}</div>
+                              <div className='spouse-title'>{ele.title}</div>
                             </div>
                             <div
+                              style={
+                                spouse.length > 1 &&
+                                children[0] &&
+                                children[0].mid === ele.id
+                                  ? { left: `calc(${100 / (index + 1)}% )` }
+                                  : {}
+                              }
                               className={`${
                                 person.children && person.children.length >= 1
                                   ? 'top-line'
                                   : ''
                               }`}></div>
                           </div>
-                        )
-                      );
+                        );
+                      }
                     })}
                 </div>
               </div>
@@ -251,6 +263,7 @@ function PersonNode({ person, handleClick, isLastChild }) {
                           person={child}
                           handleClick={handleClick}
                           isLastChild={isLast}
+                          setCount={setCount}
                         />
                       </div>
                     );
