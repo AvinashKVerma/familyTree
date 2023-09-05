@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   border-radius: 5px;
+  position: relative;
 }
 
 .parent {
@@ -13,11 +14,13 @@
 .person-details {
   text-align: center;
   position: relative;
+  margin: 0 25px;
 }
 
 .spouse-details {
   text-align: center;
-  padding-left: 20px;
+  margin: 0 20px;
+  position: relative;
 }
 
 .children {
@@ -118,9 +121,13 @@
 } */
 
 .top-line {
-  height: 40px;
-  width: 1px;
+  content: '';
+  height: 126px;
+  width: 2px;
   background-color: #dcdcdc;
+  position: absolute;
+  left: 50%;
+  top: 35%;
 }
 
 .bottom-line {
@@ -176,4 +183,18 @@
   position: relative;
   top: -40px;
   right: 50%;
+}
+
+.spouse-details.spouse-details-oflastChild {
+  position: absolute;
+  left: 100%;
+}
+
+.spouse-line {
+  content: '';
+  height: 2px;
+  width: 46px;
+  background-color: #dcdcdc;
+  position: absolute;
+  left: -33%;
 }

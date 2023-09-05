@@ -66,6 +66,10 @@ function App() {
       });
   };
 
+  const checkFunc = (ele) => {
+    console.log('check ====>', ele);
+  };
+
   return (
     <div className='App'>
       <div className='display-Tree'>
@@ -74,6 +78,7 @@ function App() {
             <PersonNode
               person={familyTree}
               handleClick={handleClick}
+              checkFunc={checkFunc}
             />
           </div>
         )}
