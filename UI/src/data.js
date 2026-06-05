@@ -1,48 +1,80 @@
-function build_family_tree(data, id) {
-  const person_dict = {};
+// export default function build_family_tree(data, rootId) {
+//   console.log(JSON.stringify(data));
+//   const persons = {};
 
+//   data.forEach((entry) => {
+//     persons[entry.id] = {
+//       ...entry,
+//       spouse: [],
+//       children: [],
+//     };
+//   });
+
+//   data.forEach((entry) => {
+//     if (Array.isArray(entry.spouse)) {
+//       persons[entry.id].spouse = entry.spouse.map((id) => persons[id]).filter(Boolean);
+//     }
+//   });
+
+//   data.forEach((entry) => {
+//     if (entry.mid && persons[entry.mid]) {
+//       persons[entry.mid].children.push(persons[entry.id]);
+//     }
+
+//     if (entry.fid && persons[entry.fid] && entry.fid !== entry.mid) {
+//       persons[entry.fid].children.push(persons[entry.id]);
+//     }
+//   });
+
+//   return persons[rootId];
+// }
+
+export default function build_family_tree(data, rootId) {
+  const persons = {};
+
+  // Create person dictionary
   data.forEach((entry) => {
-    const wifee = []; // Renamed to a more appropriate name
-
-    data.forEach((potentialSpouse) => {
-      if (entry.spouse && entry.spouse.includes(potentialSpouse.id)) {
-        wifee.push(potentialSpouse);
-      }
-    });
-
-    const person = {
-      id: entry.id,
-      name: entry.name,
-      gender: entry.gender,
-      spouse: [...wifee],
-      img: entry.img,
-      title: entry.title,
+    persons[entry.id] = {
+      ...entry,
+      spouse: [],
       children: [],
-      mid: entry.mid,
-      fid: entry.fid,
-      display: entry.display,
+      isBloodMember: entry.id === rootId || Boolean(entry.mid) || Boolean(entry.fid),
     };
-    person_dict[person.id] = person;
   });
 
+  // Attach spouses only to blood members
   data.forEach((entry) => {
-    const person = person_dict[entry.id];
-    if (entry.mid) {
-      const mother = person_dict[entry.mid];
-      if (entry.fid) {
-        const father = person_dict[entry.fid];
-        if (father) {
-          father.children.push(person);
-        }
-      }
-      if (mother) {
-        mother.children.push(person);
-      }
+    const person = persons[entry.id];
+
+    if (person.isBloodMember && Array.isArray(entry.spouse)) {
+      person.spouse = entry.spouse
+        .map((id) => persons[id])
+        .filter(Boolean)
+        .map((spouse) => ({
+          id: spouse.id,
+          name: spouse.name,
+          img: spouse.img,
+          gender: spouse.gender,
+          title: spouse.title,
+          display: spouse.display,
+          spouse: [], // prevent spouse recursion
+          children: [],
+        }));
     }
   });
 
-  const rootPerson = person_dict[id];
-  return rootPerson;
-}
+  // Build children relationships
+  data.forEach((entry) => {
+    const child = persons[entry.id];
 
-export default build_family_tree;
+    if (entry.mid && persons[entry.mid]) {
+      persons[entry.mid].children.push(child);
+    }
+
+    if (entry.fid && persons[entry.fid] && entry.fid !== entry.mid) {
+      persons[entry.fid].children.push(child);
+    }
+  });
+
+  return persons[rootId];
+}

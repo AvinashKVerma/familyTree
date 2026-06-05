@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './App.css';
-import build_family_tree from './data';
-import PersonNode from './PersonNode';
-import Form from './Form';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./App.css";
+import build_family_tree from "./data";
+import PersonNode from "./PersonNode";
+import Form from "./Form";
 
 function App() {
   const [data, setData] = useState([]);
@@ -16,7 +16,7 @@ function App() {
 
   const fetchData = () => {
     axios
-      .get('http://localhost:3005/testdata')
+      .get("http://localhost:3005/testdata")
       .then((response) => {
         setData(response.data); // Assuming the server returns an array
       })
@@ -25,9 +25,10 @@ function App() {
       });
   };
 
-  const rootPersonId = '1693296297868'; // Change this to the appropriate root person's ID
+  const rootPersonId = "1"; // Change this to the appropriate root person's ID
   const familyTree = build_family_tree(data, rootPersonId);
 
+  // console.log(JSON.stringify(familyTree));
   const handleClick = (input) => {
     setForm(true);
     setFormInput(input);
@@ -38,7 +39,6 @@ function App() {
   };
 
   const handleSubmit = (data) => {
-    console.log('handle Submitted');
     let spouse = [];
     if (Array.isArray(data.spouse)) {
       spouse = data.spouse.map((ele) => ele.id);
@@ -58,39 +58,29 @@ function App() {
     axios
       .put(`http://localhost:3005/update/${data.id}`, updatedData)
       .then((response) => {
-        console.log('User updated successfully:', response.data);
         fetchData();
       })
       .catch((error) => {
-        console.error('Error updating user:', error);
+        console.error("Error updating user:", error);
       });
   };
 
   const checkFunc = (ele) => {
-    console.log('check ====>', ele);
+    console.log("check ====>", ele);
   };
 
   return (
-    <div className='App'>
-      <div className='display-Tree'>
+    <div className="App">
+      <div className="display-Tree">
         {familyTree && (
           <div>
-            <PersonNode
-              person={familyTree}
-              handleClick={handleClick}
-              checkFunc={checkFunc}
-            />
+            <PersonNode person={familyTree} handleClick={handleClick} checkFunc={checkFunc} />
           </div>
         )}
       </div>
       {form && (
-        <div className='form-container'>
-          <Form
-            selectedItem={formInput}
-            handleSubmit={handleSubmit}
-            handleClick={handleClose}
-            fetchData={fetchData}
-          />
+        <div className="form-container">
+          <Form selectedItem={formInput} handleSubmit={handleSubmit} handleClick={handleClose} fetchData={fetchData} />
         </div>
       )}
     </div>
